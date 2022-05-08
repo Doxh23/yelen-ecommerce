@@ -31,18 +31,16 @@ let userSchema = new mongoose.Schema(
   }
 );
 
-
-userSchema.statics.login = async function (email,password){
-
-    const user = await this.findOne({email})
-    if(user){
-        if(password == user.password){
-            return user
-        }else{
-            throw error('pass wrong')
-        }
-    }else{
-        throw error('email wrong')
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
+  if (user) {
+    if (password == user.password) {
+      return user;
+    } else {
+      throw error("pass wrong");
     }
-}
-const userModel = mongoose.model('users',userSchema)
+  } else {
+    throw error("email wrong");
+  }
+};
+module.exports = mongoose.model("users", userSchema);
