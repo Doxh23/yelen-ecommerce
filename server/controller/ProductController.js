@@ -68,6 +68,14 @@ const getAllProduct = catchAsyncError(async (req, res) => {
   if (name) {
     objectQuery.name = { $regex: name, $options: "i" };
   }
+  if(category){
+//{category:{$all : ["laptop","chemise"]}}
+    category = category.split(',')
+    category ={ $all:category}
+    objectQuery.category = category
+    console.log(objectQuery)
+
+  }
   if (numericFilter) {
     const OperatorMap = {
       "<": "$lt",
@@ -76,21 +84,32 @@ const getAllProduct = catchAsyncError(async (req, res) => {
       ">=": "$gte",
       "=": "$eq",
     };
-    const regexExp = /\b([<>]=?|=)\b/g
+    const regexExp = /\b([<>]=?|=)\b/g;
     // price> 30
     //  {price : {$gte : 30}}
-   numericFilter= numericFilter.replace(regexExp,(match) => `-${OperatorMap[match]}-`)
-console.log(numericFilter)
-  numericFilter.split(',').forEach(el => {
-    let [field,operator,value]= el.split('-')
-     objectQuery[field]= {[operator]:value}
-  });
-    
-    console.log(objectQuery)
+    numericFilter = numericFilter.replace(
+      regexExp,
+      (match) => `-${OperatorMap[match]}-`
+    );
+    console.log(numericFilter);
+    numericFilter.split(",").forEach((el) => {
+      let [field, operator, value] = el.split("-");
+      objectQuery[field] = { [operator]: value };
+    });
+
+    console.log(objectQuery);
   }
-  let product = await products.find(objectQuery);
-  res.status(200).json({ product });
+
+  let product = products.find(objectQuery);
+  if (sort) {
+    product = product.sort(sort);
+  }
+
+
+  let result = await product;
+  res.status(200).json({ result });
 });
+
 /**
  * get one product  by id
  * @param {request from server} req

@@ -41,10 +41,10 @@ let productSchema = mongoose.Schema({
   ],
 
 
-  category: {
+  category:[ {
     type: String,
     required: [true, "please provide product Category"]
-  },
+  }],
 
   stock: {
     type: Number,
