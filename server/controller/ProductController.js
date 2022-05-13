@@ -9,10 +9,10 @@ const catchAsyncError = require("../middleware/catchAsyncError");
  * @param {request from server} req
  * @param {respond send from server} res
  */
-const createProduct = async (req, res) => {
+const createProduct = catchAsyncError(async (req, res,next) => {
   let product = await products.create(req.body);
   res.status(201).json({ sucess: true, product });
-};
+});
 /**
  * update a product
  * @param {request from server} req
@@ -63,18 +63,18 @@ const getAllProduct = catchAsyncError(async (req, res) => {
    * affichier juste certain element @param {select}
    *
    */
-  let { name, category, sort, select, numericFilter } = req.query;
+  let { name, category, sort, select, numericFilter, elPage } = req.query;
+  
   let objectQuery = {};
   if (name) {
     objectQuery.name = { $regex: name, $options: "i" };
   }
-  if(category){
-//{category:{$all : ["laptop","chemise"]}}
-    category = category.split(',')
-    category ={ $all:category}
-    objectQuery.category = category
-    console.log(objectQuery)
-
+  if (category) {
+    //{category:{$all : ["laptop","chemise"]}}
+    category = category.split(",");
+    category = { $all: category };
+    objectQuery.category = category;
+    console.log(objectQuery);
   }
   if (numericFilter) {
     const OperatorMap = {
@@ -104,10 +104,13 @@ const getAllProduct = catchAsyncError(async (req, res) => {
   if (sort) {
     product = product.sort(sort);
   }
-
+  let limit = Number(req.query.limit) ||15;
+  let page = Number(req.query.page) || 1
+  let skip = Number((page -1)* limit)
+  product = product.skip(skip).limit(limit)
 
   let result = await product;
-  res.status(200).json({ result });
+  res.status(200).json({ result,total: result.length });
 });
 
 /**
