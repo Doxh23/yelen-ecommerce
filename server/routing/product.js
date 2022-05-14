@@ -4,7 +4,6 @@ const {getAllProduct, createProduct,getOneProduct, updateProduct,deleteProduct} 
 
 
 
-
 //product routing
 router.route('/products').get(getAllProduct)
 router.route('/product/:id').get(getOneProduct).put(updateProduct).delete(deleteProduct)

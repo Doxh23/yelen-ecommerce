@@ -24,8 +24,8 @@ let user = require("./routing/user");
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser())
-app.use(express.static(path.resolve(__dirname, "../bin/client")));
-app.use(cors({origin:'http://localhost:3000',credentials:true}));
+app.use(express.static(path.resolve(__dirname, "../front")));
+app.use(cors());
 
 //routing
 app.use("/api/v1", product);

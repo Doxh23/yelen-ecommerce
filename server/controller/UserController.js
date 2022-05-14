@@ -22,7 +22,10 @@ const login = async (req, res, next) => {
   if (!username || !password) {
     next(new ErrorHandler("please Enter Email & Password",404));
   }
-  let user = await users.login(username, password);
+  let user = await users.login(username, password,next);
+  if (user === null){
+      next(new ErrorHandler('password or email incorrect'))
+  }
   let token = user.NewToken();
 
   // let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
@@ -36,7 +39,7 @@ const login = async (req, res, next) => {
 };
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
-  res.redirect("https://localhost:3000");
+  res.redirect("/");
 };
 
 module.exports = {

@@ -6,7 +6,7 @@ const token = req.cookie.jwt
 if(token){
     jwt.verify(req.cookie.jwt,process.env.SECRET_JWT,async(err,decodedToken)=>{
         if(err){ 
-            res.locals.user = null
+            res.locals.user = null 
             res.clearCookie('jwt') 
             next()
         }else{
@@ -22,3 +22,5 @@ if(token){
     next()
 }
 }
+
+module.exports = checkuser

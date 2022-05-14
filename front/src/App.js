@@ -5,10 +5,7 @@ import { useEffect } from "react";
 import querystring from "querystring"
 
 function App() {
-    axios.post("http://localhost:4000/api/v1/user/signIn",{
-      "username":"adrien",
-      "k,sqd":"dox230895"
-  },{withCredentials:true,credentials:'include'})
+    axios.post("/api/v1/user/logout")
   return (<div>
     sdqkdjdqs
   </div>);

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
+const errorHandler = require('../utils/errorHandler')
 let userSchema = new mongoose.Schema(
   {
     email: {
@@ -62,12 +63,19 @@ userSchema.methods.NewToken =()=>{
    // let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
     //     expiresIn: maxage
     // })
-userSchema.statics.login = async function (username, password) {
+userSchema.statics.login = async function (username, password,next) {
  
   const user = await this.findOne({ username });
-  const auth = await bcrypt.compare(password,user.password)
-  if (auth) {
-return user
+  if(user){
+    const auth = await bcrypt.compare(password,user.password)
+    if (auth) {
+  return user
+    }else{
+      return null
+    }
+  }else{
+    return null
   }
+ 
 };
 module.exports = mongoose.model("users", userSchema);
