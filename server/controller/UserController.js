@@ -11,15 +11,18 @@ const createUser =AsyncError(async (req,res,next)=>{
     }})
     res.status(200).json({sucess:true,user})
 })
+let maxage = 3*60*60*1000
 const login=async (req,res,next)=>{
     let {username,password} = req.body
     let user = await users.login(username,password)
-    let token = await jwt.sign({id:user._id},process.env.JWT_SECRET,{
-        expiresIn:"30d"
+    let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
+        expiresIn: maxage
     })
-    
     console.log(res.locals.user)
-    res.cookie("jwt",token).json({msg:user})
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Credentials',true);
+    res.cookie('jwt',token)
+    res.status(200).json({user: user._id, username: user.username})
 }
 const logout=async(req,res,next)=>{
     res.clearCookie('jwt')

@@ -5,9 +5,9 @@ const checkuser = (req,res,next)=>{
 const token = req.cookie.jwt
 if(token){
     jwt.verify(req.cookie.jwt,process.env.SECRET_JWT,async(err,decodedToken)=>{
-        if(err){
+        if(err){ 
             res.locals.user = null
-            res.clearCookie('jwt')
+            res.clearCookie('jwt') 
             next()
         }else{
             console.log(decodedToken.id)
