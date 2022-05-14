@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken')
 let userSchema = new mongoose.Schema(
   {
     email: {
@@ -53,13 +54,18 @@ userSchema.pre("save", async function (next) {
   user.password = await bcrypt.hash(user.password, salt);
   next();
 });
-
+userSchema.methods.NewToken =()=>{
+  return jwt.sign({id:this._id},process.env.JWT_SECRET,{
+    expiresIn:process.env.JWT_EXPIRE
+  })
+}
+   // let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
+    //     expiresIn: maxage
+    // })
 userSchema.statics.login = async function (username, password) {
  
   const user = await this.findOne({ username });
-  console.log(user)
   const auth = await bcrypt.compare(password,user.password)
-  console.log(auth)
   if (auth) {
 return user
   }
