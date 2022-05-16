@@ -20,26 +20,27 @@ let maxage = 3 * 60 * 60 * 1000;
 const login = async (req, res, next) => {
   let { username, password } = req.body;
   if (!username || !password) {
-    next(new ErrorHandler("please Enter Email & Password",404));
+    next(new ErrorHandler("please Enter Email & Password", 404));
   }
-  let user = await users.login(username, password,next);
-  if (user === null){
-      next(new ErrorHandler('password or email incorrect'))
+  let user = await users.login(username, password, next);
+  if (user === null) {
+    next(new ErrorHandler("password or email incorrect"));
   }
   let token = user.NewToken();
-
   // let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
-  //     expiresIn: maxage
-  // })
-  console.log(res.locals.user);
+//     expiresIn: maxage
+// })
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.cookie("jwt", token, { httpsOnly: true, expireIn: maxage });
+  res.cookie("jwt", token, { httpOnly: true, maxAge: maxage });
   res.status(200).json({ user: user._id, username: user.username });
+  console.log(req.user);
+
 };
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
   res.redirect("/");
+  res.status(200).json({ sucess: true, msg: "successfully logout" });
 };
 
 module.exports = {

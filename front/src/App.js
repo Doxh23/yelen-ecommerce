@@ -5,7 +5,10 @@ import { useEffect } from "react";
 import querystring from "querystring"
 
 function App() {
-    axios.post("/api/v1/user/logout")
+    axios.post("/api/v1/user/login",{
+      "username":"adrien",
+      "password":"dox230895"
+  })
   return (<div>
     sdqkdjdqs
   </div>);

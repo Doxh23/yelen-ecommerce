@@ -1,26 +1,54 @@
-const userModel = require('../model/user')
-const jwt = require('jsonwebtoken')
+require('dotenv').config()
+const userModel = require("../model/user");
+const jwt = require("jsonwebtoken");
+const errorHandler = require("../utils/errorHandler");
 
-const checkuser = (req,res,next)=>{
-const token = req.cookie.jwt
-if(token){
-    jwt.verify(req.cookie.jwt,process.env.SECRET_JWT,async(err,decodedToken)=>{
-        if(err){ 
-            res.locals.user = null 
-            res.clearCookie('jwt') 
-            next()
-        }else{
-            console.log(decodedToken.id)
-            let user = await userModel.find(decodedToken.id)
-            res.locals.user = user
-            console.log(res.locals.user);
-            next()
+
+const isauthenticatedUser = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.JWT_SECRET,
+      async (err, users) => {
+        if (err) {
+            console.log(err)
+          next(
+            new errorHandler(
+              `
+          Role: you are not connected`,
+              403
+            )
+          );
+        } else {
+          let user = await userModel.findById(users.id);
+          req.user = user;
+          next();
         }
-    })
-}else{
-    res.locals.user = null
-    next()
-}
-}
-
-module.exports = checkuser
+      }
+    );
+  } else {
+    res.clearCookie("jwt");
+    next(
+      new errorHandler(
+        `
+    you are not connected`,
+        403
+      )
+    );
+  }
+};
+const authorizedRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new errorHandler(
+          `
+            Role: ${req.user.role} is not allowed to acces in this rescource`,
+          403
+        )
+      );
+    }
+  };
+};
+module.exports = { isauthenticatedUser };

@@ -9,7 +9,9 @@ const catchAsyncError = require("../middleware/catchAsyncError");
  * @param {request from server} req
  * @param {respond send from server} res
  */
-const createProduct = catchAsyncError(async (req, res,next) => {
+const createProduct = catchAsyncError(async (req, res, next) => {
+  req.body.user = req.user.id;
+  console.log("salut");
   let product = await products.create(req.body);
   res.status(201).json({ sucess: true, product });
 });
@@ -64,7 +66,7 @@ const getAllProduct = catchAsyncError(async (req, res) => {
    *
    */
   let { name, category, sort, select, numericFilter, elPage } = req.query;
-  
+
   let objectQuery = {};
   if (name) {
     objectQuery.name = { $regex: name, $options: "i" };
@@ -104,13 +106,13 @@ const getAllProduct = catchAsyncError(async (req, res) => {
   if (sort) {
     product = product.sort(sort);
   }
-  let limit = Number(req.query.limit) ||15;
-  let page = Number(req.query.page) || 1
-  let skip = Number((page -1)* limit)
-  product = product.skip(skip).limit(limit)
+  let limit = Number(req.query.limit) || 15;
+  let page = Number(req.query.page) || 1;
+  let skip = Number((page - 1) * limit);
+  product = product.skip(skip).limit(limit);
 
   let result = await product;
-  res.status(200).json({ result,total: result.length });
+  res.status(200).json({ result, total: result.length });
 });
 
 /**
