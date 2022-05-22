@@ -3,6 +3,7 @@ const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const errorHandler = require("../utils/errorHandler");
+const randomstring = require('randomstring')
 let userSchema = new mongoose.Schema(
   {
     email: {
@@ -55,14 +56,22 @@ userSchema.pre("save", async function (next) {
   user.password = await bcrypt.hash(user.password, salt);
   next(); 
 });
-userSchema.methods.NewToken =function() {
+userSchema.methods.tokenPassword = function(){
+  let token = randomstring.generate({
+    length: 45,
+    charset:'sha256'
+  })
+  console.log
+ this.resetpasswordToken = token
+ this.resetpasswordExpire = Date.now() +(15*60*1000)
+ return token
+}
+userSchema.methods.NewToken = function() {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
-// let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
-//     expiresIn: maxage
-// })
+
 userSchema.statics.login = async function (username, password, next) {
   const user = await this.findOne({ username });
   if (user) {

@@ -19,6 +19,6 @@ router
   .get(isauthenticatedUser,getOneProduct)
   .put(isauthenticatedUser,updateProduct)
   .delete(isauthenticatedUser,deleteProduct);
-router.route("/product/new").post(isauthenticatedUser,createProduct);
+router.route("/product/new").post(isauthenticatedUser,authorizedRoles('admin'),createProduct);
 
 module.exports = router;

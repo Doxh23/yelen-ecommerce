@@ -41,6 +41,7 @@ const isauthenticatedUser = (req, res, next) => {
 const authorizedRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
+    
       return next(
         new errorHandler(
           `
@@ -48,7 +49,9 @@ const authorizedRoles = (...roles) => {
           403
         )
       );
+    }else{
+      next()
     }
   };
 };
-module.exports = { isauthenticatedUser };
+module.exports = { isauthenticatedUser,authorizedRoles };

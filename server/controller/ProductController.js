@@ -11,7 +11,6 @@ const catchAsyncError = require("../middleware/catchAsyncError");
  */
 const createProduct = catchAsyncError(async (req, res, next) => {
   req.body.user = req.user.id;
-  console.log("salut");
   let product = await products.create(req.body);
   res.status(201).json({ sucess: true, product });
 });
@@ -76,7 +75,6 @@ const getAllProduct = catchAsyncError(async (req, res) => {
     category = category.split(",");
     category = { $all: category };
     objectQuery.category = category;
-    console.log(objectQuery);
   }
   if (numericFilter) {
     const OperatorMap = {
@@ -93,13 +91,11 @@ const getAllProduct = catchAsyncError(async (req, res) => {
       regexExp,
       (match) => `-${OperatorMap[match]}-`
     );
-    console.log(numericFilter);
     numericFilter.split(",").forEach((el) => {
       let [field, operator, value] = el.split("-");
       objectQuery[field] = { [operator]: value };
     });
 
-    console.log(objectQuery);
   }
 
   let product = products.find(objectQuery);

@@ -1,10 +1,13 @@
+require('dotenv').config()
 const mongoose = require("mongoose");
 const users = require("../model/user");
 const AsyncError = require("../middleware/catchAsyncError");
 const jwt = require("jsonwebtoken");
 const ErrorHandler = require("../utils/errorHandler");
+const nodemailer = require('nodemailer')
 const createUser = AsyncError(async (req, res, next) => {
   let { username, password, email } = req.body;
+
   let user = await users.create({
     username,
     password,
@@ -14,6 +17,7 @@ const createUser = AsyncError(async (req, res, next) => {
       url: "profilepicUrl",
     },
   });
+ 
   res.status(200).json({ sucess: true, user });
 });
 let maxage = 3 * 60 * 60 * 1000;
@@ -27,24 +31,66 @@ const login = async (req, res, next) => {
     next(new ErrorHandler("password or email incorrect"));
   }
   let token = user.NewToken();
-  // let token =jwt.sign({id:user._id},process.env.JWT_SECRET,{
-//     expiresIn: maxage
-// })
+  let test =  user.tokenPassword();
+  console.log(test);
+
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.cookie("jwt", token, { httpOnly: true, maxAge: maxage });
   res.status(200).json({ user: user._id, username: user.username });
-  console.log(req.user);
-
 };
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
   res.redirect("/");
   res.status(200).json({ sucess: true, msg: "successfully logout" });
 };
+const forgotPassword = async (req,res,next)=>{
+  let {email} = req.body
+  let user = await users.findOne({email:email})
+  console.log(user)
+  if(!user){
+    next(new ErrorHandler('user not found',404))
+  }
+  let resetPassword = user.tokenPassword()
+  user.save({validateBeforeSave:false})
+  var transporter = nodemailer.createTransport({
+    service: 'Hotmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASS_EMAIL,
+    },
+    tls: {
+      rejectUnauthorized: false
+  }
+  });
+  var mailOptions = {
+    from: process.env.EMAIL,
+    to: user.email,
+    subject: 'forgot Password',
+    text: `Dear ${user.username},
+    we have a request to reset your password
+    click this link to reset it 
+    ${req.protocol}://${req.get('host')}/api/v1/user/forgotpassword/${resetPassword}
+    ---------------------------------------------------------------
+    if you never ask to reset your password, ignore this email
+    The administration
+    `
+  };
+  console.log(user.email)
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+const newPassword = async(req,res,next)=>{
 
+}
 module.exports = {
   createUser,
   login,
   logout,
+  forgotPassword
 };
