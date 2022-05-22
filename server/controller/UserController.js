@@ -1,10 +1,10 @@
-require('dotenv').config()
+require("dotenv").config();
 const mongoose = require("mongoose");
 const users = require("../model/user");
 const AsyncError = require("../middleware/catchAsyncError");
 const jwt = require("jsonwebtoken");
 const ErrorHandler = require("../utils/errorHandler");
-const nodemailer = require('nodemailer')
+const nodemailer = require("nodemailer");
 const createUser = AsyncError(async (req, res, next) => {
   let { username, password, email } = req.body;
 
@@ -17,7 +17,7 @@ const createUser = AsyncError(async (req, res, next) => {
       url: "profilepicUrl",
     },
   });
- 
+
   res.status(200).json({ sucess: true, user });
 });
 let maxage = 3 * 60 * 60 * 1000;
@@ -31,7 +31,7 @@ const login = async (req, res, next) => {
     next(new ErrorHandler("password or email incorrect"));
   }
   let token = user.NewToken();
-  let test =  user.tokenPassword();
+  let test = user.tokenPassword();
   console.log(test);
 
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -44,53 +44,67 @@ const logout = async (req, res, next) => {
   res.redirect("/");
   res.status(200).json({ sucess: true, msg: "successfully logout" });
 };
-const forgotPassword = async (req,res,next)=>{
-  let {email} = req.body
-  let user = await users.findOne({email:email})
-  console.log(user)
-  if(!user){
-    next(new ErrorHandler('user not found',404))
+
+const changePassword = async (req,res,next) =>{
+  console.log(req.user)
+}
+const forgotPassword = async (req, res, next) => {
+  let { email } = req.body;
+  let user = await users.findOne({ email: email });
+  console.log(user);
+  if (!user) {
+    next(new ErrorHandler("user not found", 404));
   }
-  let resetPassword = user.tokenPassword()
-  user.save({validateBeforeSave:false})
+  let resetPassword = user.tokenPassword();
+  await user.save({ validateBeforeSave: false });
   var transporter = nodemailer.createTransport({
-    service: 'Hotmail',
+    service: "Hotmail",
     auth: {
       user: process.env.EMAIL,
       pass: process.env.PASS_EMAIL,
     },
     tls: {
-      rejectUnauthorized: false
-  }
+      rejectUnauthorized: false,
+    },
   });
-  var mailOptions = {
-    from: process.env.EMAIL,
-    to: user.email,
-    subject: 'forgot Password',
-    text: `Dear ${user.username},
+  try {
+    var mailOptions = {
+      from: process.env.EMAIL,
+      to: user.email,
+      subject: "forgot Password",
+      text: `Dear ${user.username},
     we have a request to reset your password
     click this link to reset it 
-    ${req.protocol}://${req.get('host')}/api/v1/user/forgotpassword/${resetPassword}
+    ${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetPassword}
     ---------------------------------------------------------------
     if you never ask to reset your password, ignore this email
     The administration
-    `
-  };
-  console.log(user.email)
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
+    `,
+    };
+    transporter.sendMail(mailOptions);
+    res.status(200).json({ succes: true, msg: "email send" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const newPassword = async (req, res, next) => {
+  let { token } = req.params;
+  let user = await users.findOne({
+    resetpasswordToken: token,
+    resetpasswordExpire: { $gt: Date.now() },
   });
-}
-const newPassword = async(req,res,next)=>{
-
-}
+  if(!user){
+    next(new ErrorHandler('reset password token is invalid or expire'))
+  }
+  user.password = req.body.password;
+  user.save({validateBeforeSave:false});
+  res.status(200).json({ succes: true, msg: "password is reset" });
+};
 module.exports = {
   createUser,
   login,
   logout,
-  forgotPassword
+  forgotPassword,
+  newPassword,
+  changePassword
 };
