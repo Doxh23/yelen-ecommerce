@@ -5,6 +5,9 @@ const AsyncError = require("../middleware/catchAsyncError");
 const jwt = require("jsonwebtoken");
 const ErrorHandler = require("../utils/errorHandler");
 const nodemailer = require("nodemailer");
+
+
+/************************************************************************* */
 const createUser = AsyncError(async (req, res, next) => {
   let { username, password, email } = req.body;
 
@@ -20,7 +23,14 @@ const createUser = AsyncError(async (req, res, next) => {
 
   res.status(200).json({ sucess: true, user });
 });
+
+
 let maxage = 3 * 60 * 60 * 1000;
+
+
+
+
+
 const login = async (req, res, next) => {
   let { username, password } = req.body;
   if (!username || !password) {
@@ -42,12 +52,25 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
   res.redirect("/");
-  res.status(200).json({ sucess: true, msg: "successfully logout" });
+  res.status(200).json({ sucess: true, message: "successfully logout" });
 };
 
 const changePassword = async (req,res,next) =>{
-  console.log(req.user)
+  let user = await users.findOne({_id:req.user._id})
+
+  let {password,checkPassword} = req.body
+  if (password !== checkPassword){
+    next(new ErrorHandler('the password in the checkbox is not the same'))
+  }
+   user.password = password
+   await user.save()
+   res.status(200).json({success: true,message:"password updated"})
+  console.log(user)
 }
+
+
+
+
 const forgotPassword = async (req, res, next) => {
   let { email } = req.body;
   let user = await users.findOne({ email: email });
@@ -82,11 +105,15 @@ const forgotPassword = async (req, res, next) => {
     `,
     };
     transporter.sendMail(mailOptions);
-    res.status(200).json({ succes: true, msg: "email send" });
+    res.status(200).json({ succes: true, message: "email send" });
   } catch (error) {
     console.log(error);
   }
 };
+
+
+
+
 const newPassword = async (req, res, next) => {
   let { token } = req.params;
   let user = await users.findOne({
@@ -94,9 +121,10 @@ const newPassword = async (req, res, next) => {
     resetpasswordExpire: { $gt: Date.now() },
   });
   if(!user){
-    next(new ErrorHandler('reset password token is invalid or expire'))
+    next(new ErrorHandler('reset password token is invalid or expire',404))
   }
   user.password = req.body.password;
+  
   user.save({validateBeforeSave:false});
   res.status(200).json({ succes: true, msg: "password is reset" });
 };
