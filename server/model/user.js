@@ -66,6 +66,12 @@ userSchema.methods.tokenPassword = function(){
  this.resetpasswordExpire = Date.now() +(15*60*1000)
  return token
 }
+userSchema.statics.comparePassword = async function({pass,pass2}){
+  if (pass === pass2){
+    return pass
+  }
+  return null
+}
 userSchema.methods.NewToken = function() {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,

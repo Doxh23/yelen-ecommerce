@@ -24,7 +24,36 @@ const updateProduct = catchAsyncError(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHandler("product not found", 404));
   }
+  // Images Start Here
+  let images = [];
 
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  if (images !== undefined) {
+    // Deleting Images From Cloudinary
+    for (let i = 0; i < product.images.length; i++) {
+      await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    }
+
+    const imagesLinks = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesLinks;
+  }
   product = await products.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -32,11 +61,25 @@ const updateProduct = catchAsyncError(async (req, res, next) => {
   });
   res.status(200).json({ succes: true, product });
 });
-/**
- * delete a product
- * @param {request from server} req
- * @param {respond send from server} res
- */
+
+catchAsyncError(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
+
+const getProductAdmin =catchAsyncError(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
+
 const deleteProduct = catchAsyncError(async (req, res) => {
   let product = await products.findById(req.params.id);
   if (!product) {
@@ -56,14 +99,7 @@ const deleteProduct = catchAsyncError(async (req, res) => {
  * @param {respond send from server} res
  */
 const getAllProduct = catchAsyncError(async (req, res) => {
-  /**
-   * afficher les elements par rapport aux @param {noms}
-   * afficher les elements par rapport aux @param {noms}
-   * afficher les elements par rapport aux @param {prix} plus grand -plus petit-etc
-   * trier par rapport a un parametre @param {sort} nom description prix / etc
-   * affichier juste certain element @param {select}
-   *
-   */
+  
   let { name, category, sort, select, numericFilter, elPage } = req.query;
 
   let objectQuery = {};
@@ -85,8 +121,7 @@ const getAllProduct = catchAsyncError(async (req, res) => {
       "=": "$eq",
     };
     const regexExp = /\b([<>]=?|=)\b/g;
-    // price> 30
-    //  {price : {$gte : 30}}
+  
     numericFilter = numericFilter.replace(
       regexExp,
       (match) => `-${OperatorMap[match]}-`
@@ -111,11 +146,7 @@ const getAllProduct = catchAsyncError(async (req, res) => {
   res.status(200).json({ result, total: result.length });
 });
 
-/**
- * get one product  by id
- * @param {request from server} req
- * @param {respond send from server} res
- */
+
 const getOneProduct = catchAsyncError(async (req, res, next) => {
   let product = await products.findById(req.params.id);
   if (!product) {
@@ -130,4 +161,5 @@ module.exports = {
   getOneProduct,
   updateProduct,
   deleteProduct,
+  getProductAdmin
 };

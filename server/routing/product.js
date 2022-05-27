@@ -6,6 +6,7 @@ const {
   getOneProduct,
   updateProduct,
   deleteProduct,
+  getProductAdmin,
 } = require("../controller/productController");
 const {
   isauthenticatedUser,
@@ -14,11 +15,16 @@ const {
 
 //product routing
 router.route("/products").get(isauthenticatedUser, getAllProduct);
+router.route("/product/:id").get(isauthenticatedUser, getOneProduct);
 router
-  .route("/product/:id")
-  .get(isauthenticatedUser,getOneProduct)
-  .put(isauthenticatedUser,updateProduct)
-  .delete(isauthenticatedUser,deleteProduct);
-router.route("/product/new").post(isauthenticatedUser,authorizedRoles('admin'),createProduct);
+  .route("/admin/product/:id")
+  .put(isauthenticatedUser, authorizedRoles("admin"), updateProduct)
+  .delete(isauthenticatedUser, authorizedRoles("admin"), deleteProduct);
+router
+  .route("/adminproduct/new")
+  .post(isauthenticatedUser, authorizedRoles("admin"), createProduct);
 
+router
+  .route("/admin/products")
+  .get(isauthenticatedUser, authorizedRoles("admin"), getProductAdmin);
 module.exports = router;

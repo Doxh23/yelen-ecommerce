@@ -8,18 +8,31 @@ const {
   forgotPassword,
   newPassword,
   changePassword,
+  userGetDetails,
+  getAllUser,
+  getSingleUser,
+  updateUserRole,
+  deleteUser,
 } = require("../controller/UserController");
 const {
-    isauthenticatedUser,
-    authorizedRoles,
-  } = require("../middleware/auth.middleware");
+  isauthenticatedUser,
+  authorizedRoles,
+} = require("../middleware/auth.middleware");
 //user routing
 router.route("/user/register").post(createUser);
 router.route("/user/login").post(login);
-router.route("/user/logout").post(logout);
+router.route("/user/logout").post(isauthenticatedUser, logout);
+router.route("/user/getDetails").get(isauthenticatedUser, userGetDetails);
 router.route("/forgot/password").post(forgotPassword);
 router.route("/password/reset/:token").put(newPassword);
-router.route("/password/changepassword").put(isauthenticatedUser,changePassword);
+router.route("/me/updatepassword").put(isauthenticatedUser, changePassword);
 
+router.route("/me").get(isauthenticatedUser, userGetDetails);
+router.route("/admin/users").get(authorizedRoles("admin"), getAllUser);
+router
+  .route("/admin/:id")
+  .get(authorizedRoles("admin"), getSingleUser)
+  .put(authorizedRoles("admin"), updateUserRole)
+  .delete(authorizedRoles, deleteUser);
 
 module.exports = router;
