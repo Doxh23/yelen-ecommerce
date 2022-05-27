@@ -1,14 +1,8 @@
-import React,{useEffect} from 'react'
-import axios from 'axios'
+import React from "react";
+import axios from "axios";
 
-useEffect(() => {
-   axios.get('/')
-}, [])
-function Allproduct(props) {
-  return (
-    
-  )
+function Allproduct() {
+  return null;
 }
 
-
-export default Allproduct
+export default Allproduct;

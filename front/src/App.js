@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import Allproduct from "./components/Allproduct";
-const [products, setproducts] = useState({});
+import Header from "./components/Header";
+import {BrowserRouter as Router } from 'react-router-dom'
 function App() {
-  return <Allproduct products={products} setproducts={setproducts} />;
+  return (
+    <>
+    <Router >
+    <Header />
+    </Router>
+    </>
+  )
 }
 
 export default App;
