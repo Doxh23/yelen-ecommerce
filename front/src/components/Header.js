@@ -17,7 +17,7 @@ export default function Header() {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    getProduct(dispatch);
+    dispatch(getProduct())
   }, []);
   return (
     <>
