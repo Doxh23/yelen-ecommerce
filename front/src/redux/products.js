@@ -12,8 +12,7 @@ import {  createSlice } from "@reduxjs/toolkit";
     productSuccess: (state, action) => {
       return {
         loading:false,
-        products: action.payload.products,
-        productsCount: action.payload.products.count()
+        products: action.payload.result,
       }
     },
     productFail: (state,action)=>{
@@ -22,7 +21,7 @@ import {  createSlice } from "@reduxjs/toolkit";
         error: action.payload
       }
     },
-    ClearError: (state,action)=>{
+    clearError: (state,action)=>{
       return {
         ...state,
         error: null
@@ -31,6 +30,5 @@ import {  createSlice } from "@reduxjs/toolkit";
   },
 });
 
-export const {productRequest,productFail,productSuccess,ClearError} = todoSlice.actions
-export {productSlice}
+export const {productRequest,productFail,productSuccess,clearError} = productSlice.actions
 
