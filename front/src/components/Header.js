@@ -1,44 +1,19 @@
 import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from '../logo.png'
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 export default function Header() {
-  const options = {
-    burgerColorHover: "#3CCA98",
-    logo,
-    logoWidth: "10vmax",
-    navColor1: "#3CCA98",
-    logoHoverSize: "10px",
-    logoHoverColor: "#eb4034",
-    link1Text: "Home",
-    link2Text: "Products",
-    link3Text: "Contact",
-    link4Text: "About",
-    link1Url: "/",
-    link2Url: "/products",
-    link3Url: "/contact",
-    link4Url: "/about",
-    link1Size: "1.3vmax",
-    link1Color: "white",
-    nav1justifyContent: "flex-end",
-    nav2justifyContent: "flex-end",
-    nav3justifyContent: "flex-start",
-    nav4justifyContent: "flex-start",
-    link1ColorHover: "#eb4034",
-    link1Margin: "1vmax",
-    profileIconUrl: "/login",
-    profileIconColor: "rgba(35, 35, 35,0.8)",
-    searchIconColor: "rgba(35, 35, 35,0.8)",
-    cartIconColor: "rgba(35, 35, 35,0.8)",
-    profileIconColorHover: "#eb4034",
-    searchIconColorHover: "#eb4034",
-    cartIconColorHover: "#eb4034",
-    cartIconMargin: "1vmax",
-  };
+  const task = useSelector((state)=>{console.log(state.todo)})
+
   return (
     <>
-      <ReactNavbar
-       {...options}
-       />
+    <div className="header">
+     <NavLink  to="/"> home</NavLink>
+     <NavLink to="/Product"> product</NavLink>
+     <NavLink to="/Contact"> contact</NavLink>
+     <NavLink to="/About"> about</NavLink>
+     </div>
     </>
   );
 }
