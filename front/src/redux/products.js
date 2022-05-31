@@ -60,6 +60,40 @@ export const productDetailSlice = createSlice({
   },
 });
 
+// export const panier = createSlice({
+//   name: "Panier",
+//   initialState: {cartItem: []},
+//   reducers: {
+//     addToCart: (state, action) => {
+//       let item = action.payload
+
+//       let isItemExist = state.cartItem.find((i)=>{
+//         i.product === item.product
+//       })
+//       if(isItemExist){
+//         return {
+//           ...state, 
+//           carItem: state.cartItem.map((i)=>{
+//             i.product === item.payload? item : i
+//           }),
+//         }
+//       }else{
+//         return {
+//           ...state,
+//           cartItem
+//         }
+//       }
+      
+//     },
+//     removeToCard: (state, action) => {
+//       return {
+//         cartItem: state.filter((i)=> i.product !== action.payload)
+//       }
+//     },
+//   }
+// });
+
+// export const {addToPanier,removeToCard} = panier.actions
 export const {productRequest,productFail,productSuccess,clearError} = productSlice.actions
 export const {productDetailsFail,productDetailsRequest,productDetailsSuccess} = productDetailSlice.actions
 
