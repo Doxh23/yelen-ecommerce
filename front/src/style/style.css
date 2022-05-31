@@ -5,8 +5,13 @@
           box-sizing: border-box;
 }
 
+body {
+  background-color: white;
+}
+
 body .header {
-  background-color: #282424;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(25%, black), to(transparent));
+  background: linear-gradient(black 25%, transparent 100%);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -17,6 +22,8 @@ body .header {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  width: 100%;
+  height: 5vh;
 }
 
 body .header a {
@@ -25,6 +32,8 @@ body .header a {
   color: red;
   text-decoration: none;
   font-weight: 700;
+  width: auto;
+  height: 100%;
 }
 
 body .header a:last-child {
@@ -32,6 +41,75 @@ body .header a:last-child {
 }
 
 body .header :hover {
+  color: #3CCA98;
+  text-decoration: none;
+}
+
+body .home {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100vw;
+  margin: auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body .home .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body .home .container .ProductCard {
+  width: 25%;
+  margin: auto 15px;
+  -webkit-transition: -webkit-transform 200ms ease-in;
+  transition: -webkit-transform 200ms ease-in;
+  transition: transform 200ms ease-in;
+  transition: transform 200ms ease-in, -webkit-transform 200ms ease-in;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+body .home .container .ProductCard * {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: auto;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  text-decoration: none;
+}
+
+body .home .container .ProductCard:hover {
+  text-decoration: none;
+  border: 1px rgba(128, 128, 128, 0.386) solid;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  -webkit-transform: translateY(-10px);
+          transform: translateY(-10px);
+}
+
+body .home .container .ProductCard:visited {
+  color: #3CCA98;
+  text-decoration: none;
+}
+
+body .home .container .ProductCard:link {
   color: #3CCA98;
   text-decoration: none;
 }

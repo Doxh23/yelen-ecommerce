@@ -12,13 +12,7 @@ import {
   clearError,
 } from "../redux/products";
 export default function Header() {
-  const products = useSelector((state) => {
-    console.log(state.products);
-  });
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getProduct())
-  }, []);
+ 
   return (
     <>
       <div className="header">

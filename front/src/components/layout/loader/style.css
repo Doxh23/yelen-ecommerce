@@ -1,0 +1,18 @@
+
+.loader{
+   position: absolute;
+   left: 50%;
+   bottom:50%;
+margin: auto;
+    width: 40px;
+    height: 40px;
+    border-bottom: 3px solid #3CCA98;
+    border-radius: 50%;
+    animation:LoadingSpin 1000ms linear infinite
+
+}
+@keyframes LoadingSpin {
+    to {
+        transform: rotatez(-360deg);
+    }
+}

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { productFail, productRequest, productSuccess,clearError } from "../redux/products";
+import { productFail, productRequest, productSuccess,clearError,productDetailsSuccess,productDetailsFail } from "../redux/products";
 
-export const getProduct = () => async (dispatch) => {
-    const fetching = async () => {
+export const getProducts = () => async (dispatch) => {
+    let fetching = async () => {
         try {
           let data = await axios
             .get("/api/v1/products")
@@ -12,6 +12,18 @@ export const getProduct = () => async (dispatch) => {
         }
       };
       fetching()
+};
+export const getProductDetails = (id) => async (dispatch) => {
+  let fetching = async () => {
+      try {
+        let data = await axios
+          .get(`/api/v1/product/${id}`)
+          .then((res) => dispatch(productDetailsSuccess(res.data)));
+      } catch (error) {
+        dispatch(productDetailsFail(error));
+      }
+    };
+    fetching()
 };
 export const ClearError = ()=> async(dispatch)=>{
     dispatch(clearError())
