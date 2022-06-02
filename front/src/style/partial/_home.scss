@@ -1,0 +1,43 @@
+.home{
+width: 100%;
+display: flex;
+width: 100vw;
+margin: auto;
+ align-items: center;
+flex-direction: column;
+.container{
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+     .ProductCard{
+         width: 25%;
+         margin: auto 15px;
+         transition: transform 200ms ease-in;
+         text-decoration: none;
+         font-weight: 600;
+         *{
+             display: flex;
+             margin: auto;
+             justify-content: center;
+             width: 100%;
+             text-decoration: none;
+         }
+     }
+     .ProductCard:hover{
+         text-decoration: none;
+         border: 1px rgba(128, 128, 128, 0.386) solid;
+         border-bottom-left-radius: 25px;
+         border-bottom-right-radius: 25px;
+        transform: translateY(-10px);
+     }
+     .ProductCard:visited{
+         color: #3CCA98;
+         text-decoration: none;
+     }
+     .ProductCard:link{
+         color: #3CCA98;
+         text-decoration: none;
+
+     }
+}
+}

@@ -2,12 +2,16 @@ import React, { useEffect,useState } from "react";
 import Product from "./products";
 import Loader from '../layout/loader/loader'
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../action/productsAction";
-
+import { getProducts,ClearError } from "../../action/productsAction";
+import {useAlert} from 'react-alert'
 export default function Home() {
   const { loading,error, products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   useEffect(() => {
+    if(error){
+      alert.error(error)
+      dispatch(ClearError())
+    }
     dispatch(getProducts());
   }, []);
  

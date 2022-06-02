@@ -12,7 +12,7 @@ import {
   clearError,
 } from "../redux/products";
 export default function Header() {
- 
+ console.log(document.cookie)
   return (
     <>
       <div className="header">
@@ -20,6 +20,9 @@ export default function Header() {
         <NavLink to="/Product"> product</NavLink>
         <NavLink to="/Contact"> contact</NavLink>
         <NavLink to="/About"> about</NavLink>
+        {document.cookie.jwt?(  <NavLink to="/signIn"> SignIn</NavLink>)
+: ( <NavLink to="/logout"> logout</NavLink> )}
+
       </div>
     </>
   );
