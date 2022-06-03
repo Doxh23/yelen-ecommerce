@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts,ClearError } from "../../action/productsAction";
 import {useAlert} from 'react-alert'
 export default function Home() {
-  const { loading,error, products } = useSelector((state) => state.products);
+  const { loading,error, products,productsCount,resultPerPage } = useSelector((state) => state.products);
+  console.log(products)
   const dispatch = useDispatch();
   useEffect(() => {
     if(error){
@@ -16,7 +17,7 @@ export default function Home() {
   }, []);
  
   return (
-    <div className="home">
+    <div className="content">
       {!loading ? (
         <React.Fragment>
           <div className="Banner">

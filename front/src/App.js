@@ -3,7 +3,6 @@ import Header from "./components/Header";
 import { Routes, Route } from "react-router-dom";
 import About from "./components/About";
 import Logout from './components/Auth/Logout'
-import Product from "./components/product/products";
 import Contact from "./components/Contact";
 import Products from './components/product/products'
 import Home from "./components/Home/Home";
@@ -26,12 +25,13 @@ function App() {
       <Routes>
       <Route  path="/product/:id" element={<ProductDetails/>} />
         <Route path="/" element={<Home />} />
-        <Route path="/Product" element={<Product />} />
+        <Route path="/Products" element={<Products />} />
+        <Route path="/Products/:category" element={<Products />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/About" element={<About />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/logout" element={<Products />} />
+
       </Routes>
     </>
 

@@ -7,13 +7,22 @@ import "./style/style.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { CookiesProvider } from "react-cookie";
+import AlertTemplate from "react-alert-template-basic";
+import { positions, transitions, Provider as AlertProvider } from "react-alert";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_CENTER,
+  transition: transitions.SCALE,
+};  
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <CookiesProvider>
+          <AlertProvider template={AlertTemplate} {...options}>
           <App />
+          </AlertProvider>
         </CookiesProvider>
       </BrowserRouter>
     </Provider>

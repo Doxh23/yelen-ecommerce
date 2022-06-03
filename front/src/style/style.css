@@ -45,7 +45,7 @@ body .header :hover {
   text-decoration: none;
 }
 
-body .home {
+body .content {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -61,7 +61,7 @@ body .home {
           flex-direction: column;
 }
 
-body .home .container {
+body .content .container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -72,7 +72,7 @@ body .home .container {
           justify-content: center;
 }
 
-body .home .container .ProductCard {
+body .content .container .ProductCard {
   width: 25%;
   margin: auto 15px;
   -webkit-transition: -webkit-transform 200ms ease-in;
@@ -83,7 +83,7 @@ body .home .container .ProductCard {
   font-weight: 600;
 }
 
-body .home .container .ProductCard * {
+body .content .container .ProductCard * {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -95,7 +95,7 @@ body .home .container .ProductCard * {
   text-decoration: none;
 }
 
-body .home .container .ProductCard:hover {
+body .content .container .ProductCard:hover {
   text-decoration: none;
   border: 1px rgba(128, 128, 128, 0.386) solid;
   border-bottom-left-radius: 25px;
@@ -104,14 +104,30 @@ body .home .container .ProductCard:hover {
           transform: translateY(-10px);
 }
 
-body .home .container .ProductCard:visited {
+body .content .container .ProductCard:visited {
   color: #3CCA98;
   text-decoration: none;
 }
 
-body .home .container .ProductCard:link {
+body .content .container .ProductCard:link {
   color: #3CCA98;
   text-decoration: none;
+}
+
+body .content .pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin: 15px;
+  list-style-type: none;
+}
+
+body .content .pagination li {
+  margin: 15px;
 }
 
 body .product-content {

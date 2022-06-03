@@ -11,8 +11,11 @@ import {  createSlice } from "@reduxjs/toolkit";
    },
     productSuccess: (state, action) => {
       return {
+        ...state,
         loading:false,
-        products: action.payload.result,
+        products: action.payload.products,
+        productsCount: action.payload.total,
+        resultPerPage:action.payload.ResultPerPage
       }
     },
     productFail: (state,action)=>{
@@ -59,6 +62,12 @@ export const productDetailSlice = createSlice({
     }
   },
 });
+
+
+
+
+
+
 
 // export const panier = createSlice({
 //   name: "Panier",

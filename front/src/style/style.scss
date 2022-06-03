@@ -8,8 +8,8 @@ $green : #3CCA98;
 body{
     background-color: white;
 
-    @import "./partial/header";
-    @import "./partial/home";
+    @import "./partial/header"; 
+    @import "./partial/content";
     @import "./partial/product";
 
 }
