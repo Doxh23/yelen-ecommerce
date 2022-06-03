@@ -6,12 +6,15 @@ import { BrowserRouter } from "react-router-dom";
 import "./style/style.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { CookiesProvider } from "react-cookie";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

@@ -2,21 +2,24 @@ import axios from "axios";
 import React from "react";
 
 const SignIn = () => {
-  const [login, setlogin] = React.useState({ username: "", password: "" });
-  console.log(login);
+  const [loginData, setloginData] = React.useState({
+    username: "",
+    password: "",
+  });
+  console.log(loginData)
   const handleChange = (e) => {
     const value = e.target.value;
-    setlogin({ ...login, [e.target.name]: value });
+    setloginData({ ...loginData, [e.target.name]: value });
   };
-  const fetchData = async () => {
-    let data = await axios.post("/api/v1/user/login", login).then((res) => {
+  const login = async () => {
+    let data = await axios.post("/api/v1/user/login", loginData).then((res) => {
       console.log(res.data);
-      window.location = '/'
+      window.location = "/";
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchData();
+    login();
   };
   React.useEffect(() => {}, []);
   return (
@@ -25,6 +28,7 @@ const SignIn = () => {
         <div>{/** */ <img src="" alt="" />}</div>
 
         <div>
+            <div>
           <div className="logo"></div>
           <div className="title"></div>
           <div className="sous-titre"></div>
@@ -33,13 +37,13 @@ const SignIn = () => {
               <label htmlFor="username">email</label>
               <input
                 type="username"
-                value={login.username}
+                value={loginData.username}
                 onChange={handleChange}
                 name="username"
               />
               <label htmlFor="password"></label>
               <input
-                value={login.password}
+                value={loginData.password}
                 onChange={handleChange}
                 type="password"
                 name="password"
@@ -47,6 +51,7 @@ const SignIn = () => {
               />
               <button type="submit"> submit</button>
             </form>
+          </div>
           </div>
         </div>
       </div>
