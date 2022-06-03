@@ -114,6 +114,7 @@ const getAllProduct = catchAsyncError(async (req, res) => {
       regexExp,
       (match) => `-${OperatorMap[match]}-`
     );
+    console.log(numericFilter)
     numericFilter.split(",").forEach((el) => {
       let [field, operator, value] = el.split("-");
       objectQuery[field] = { [operator]: value };

@@ -21,11 +21,11 @@ export const addToCart = (id) => async (dispatch) => {
   };
 };
 
-export const getProducts = (word = "",page = 1) => async (dispatch) => {
+export const getProducts = (word = "",page = 1,price = "") => async (dispatch) => {
   let fetching = async () => {
     try {
       let data = await axios
-        .get(`/api/v1/products?category=${word}&page=${page}`)
+        .get(`/api/v1/products?category=${word}&page=${page}&numericFilter=price${price.filter + price.price}`)
         .then((res) => dispatch(productSuccess(res.data))
           );
     } catch (error) {

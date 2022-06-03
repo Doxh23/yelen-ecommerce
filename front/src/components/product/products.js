@@ -1,45 +1,65 @@
-import React from 'react'
-import { useDispatch, useSelector, } from "react-redux";
-import { getProducts,ClearError } from "../../action/productsAction";
-import {useParams} from 'react-router-dom'
-import Products from '../Home/products'
-import {useAlert} from 'react-alert'
-import Loader from '../layout/loader/loader';
-import Pagination from "react-js-pagination"
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts, ClearError } from "../../action/productsAction";
+import { useParams } from "react-router-dom";
+import Products from "../Home/products";
+import { useAlert } from "react-alert";
+import Loader from "../layout/loader/loader";
+import Pagination from "react-js-pagination";
 export default function Product() {
-  const { loading,error, products,productsCount,resultPerPage } = useSelector((state) => state.products);
-  const [currentPage, setcurrentPage] = React.useState(1)
-console.log(productsCount)
- function setcurrentPageNo(e){
-    setcurrentPage(e)
+  const { loading, error, products, productsCount, resultPerPage } =
+    useSelector((state) => state.products);
+  const [currentPage, setcurrentPage] = React.useState(1);
+  const [submit, setsubmit] = React.useState({ price: "1", filter: ">" });
+  const [price, setprice] = React.useState({})
+  console.log(productsCount);
+  function setcurrentPageNo(e) {
+    setcurrentPage(e);
   }
-  console.log(currentPage)
-  let {category} = useParams()
-  console.log(category)
-  console.log(loading)
- const dispatch = useDispatch();
- const alert = useAlert()
+  console.log(currentPage);
+  let { category } = useParams();
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const handleChangePrice = (e) =>{
+    setsubmit({...submit,[e.target.name]:e.target.value})
+  }
+const handleSubmit = (e) =>{
+  e.preventDefault()
+  setprice(submit)
+} 
+  console.log(submit)
   React.useEffect(() => {
-    if(error){
-      alert.error(error)
-      dispatch(ClearError())
+    if (error) {
+      alert.error(error);
+      dispatch(ClearError());
     }
-    dispatch(getProducts(category,currentPage));
-  }, [dispatch,category,currentPage]);
+    dispatch(getProducts(category, currentPage, price));
+  }, [dispatch, category, currentPage,price]);
 
   return (
-
     <div className="content">
-    {!loading?  (<React.Fragment>
-      <div className="container">
-      {products &&
-        products.map((product) => (
-          <Products key={product._id} product={product} />
-        ))}
-        </div>
-        {resultPerPage < productsCount && (
-        <div className="paginationBox">
-        /* <Pagination
+      {!loading ? (
+        <React.Fragment>
+          <div className="container">
+            {products &&
+              products.map((product) => (
+                <Products key={product._id} product={product} />
+              ))}
+          </div>
+          <form action="" onSubmit={handleSubmit}>
+          <select onChange={handleChangePrice} value=">" name="filter" id="">
+            <option value="<">plus petit </option>
+            <option value=">">plus grand </option>
+            <option value="<=">plus petit ou égale </option>
+            <option value=">=">plus grand ou égale </option>
+            <option value="=">égale </option>
+          </select>
+                <input type="text" onChange={handleChangePrice} name="price" id="" />
+                </form>
+          {resultPerPage < productsCount && (
+            <div className="paginationBox">
+              
+              <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resultPerPage}
                 totalItemsCount={productsCount}
@@ -52,10 +72,14 @@ console.log(productsCount)
                 linkClass="page-link"
                 activeClass="pageItemActive"
                 activeLinkClass="pageLinkActive"
-              /> */
-        </div>
-        )}
-        </React.Fragment>):(<Loader/>)}
-        </div>
-  )
+              />
+              
+            </div>
+          )}
+        </React.Fragment>
+      ) : (
+        <Loader />
+      )}
+    </div>
+  );
 }
