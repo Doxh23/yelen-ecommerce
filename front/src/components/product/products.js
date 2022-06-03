@@ -37,6 +37,7 @@ console.log(productsCount)
           <Products key={product._id} product={product} />
         ))}
         </div>
+        {resultPerPage < productsCount && (
         <div className="paginationBox">
         /* <Pagination
                 activePage={currentPage}
@@ -53,6 +54,7 @@ console.log(productsCount)
                 activeLinkClass="pageLinkActive"
               /> */
         </div>
+        )}
         </React.Fragment>):(<Loader/>)}
         </div>
   )
