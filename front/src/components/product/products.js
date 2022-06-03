@@ -6,12 +6,19 @@ import Products from "../Home/products";
 import { useAlert } from "react-alert";
 import Loader from "../layout/loader/loader";
 import Pagination from "react-js-pagination";
+import Typography from "@mui/material/Typography/Typography"
 export default function Product() {
   const { loading, error, products, productsCount, resultPerPage } =
     useSelector((state) => state.products);
   const [currentPage, setcurrentPage] = React.useState(1);
   const [submit, setsubmit] = React.useState({ price: "1", filter: ">" });
   const [price, setprice] = React.useState({})
+  const [categorie, setcategorie] = React.useState({})
+  const categories = [
+    "laptop",
+    "chemise",
+    'test'
+  ]
   console.log(productsCount);
   function setcurrentPageNo(e) {
     setcurrentPage(e);
@@ -27,14 +34,14 @@ const handleSubmit = (e) =>{
   e.preventDefault()
   setprice(submit)
 } 
-  console.log(submit)
+  console.log(categorie)
   React.useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(ClearError());
     }
-    dispatch(getProducts(category, currentPage, price));
-  }, [dispatch, category, currentPage,price]);
+    dispatch(getProducts(category, currentPage, price,categorie));
+  }, [dispatch, category, currentPage,price,categorie]);
 
   return (
     <div className="content">
@@ -56,6 +63,15 @@ const handleSubmit = (e) =>{
           </select>
                 <input type="text" onChange={handleChangePrice} name="price" id="" />
                 </form>
+                <Typography>typographie</Typography>
+                <ul>
+                  {categories.map((el)=>(
+                    <li className="category-link" key={el} onClick={()=>setcategorie(el)}>
+                     { el}
+                    </li>
+                  )
+                  )}
+                </ul>
           {resultPerPage < productsCount && (
             <div className="paginationBox">
               

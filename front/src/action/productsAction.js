@@ -21,19 +21,28 @@ export const addToCart = (id) => async (dispatch) => {
   };
 };
 
-export const getProducts = (word = "",page = 1,price = "") => async (dispatch) => {
-  let fetching = async () => {
-    try {
-      let data = await axios
-        .get(`/api/v1/products?category=${word}&page=${page}&numericFilter=price${price.filter + price.price}`)
-        .then((res) => dispatch(productSuccess(res.data))
-          );
-    } catch (error) {
-      dispatch(productFail(error));
-    }
+export const getProducts =
+  (word = "", page = 1, price = null, categorie = "") =>
+  async (dispatch) => {
+    let fetching = async () => {
+      try {
+        let api = `/api/v1/products?${
+          Object.keys(categorie).length === 0 ? "" : "category=" + categorie
+        }&page=${page}${
+          Object.keys(price).length === 0
+            ? ""
+            : "&numericFilter" + price.filter + price.price
+        }`;
+        console.log(api);
+        let data = await axios
+          .get(api)
+          .then((res) => dispatch(productSuccess(res.data)));
+      } catch (error) {
+        dispatch(productFail(error));
+      }
+    };
+    fetching();
   };
-  fetching();
-};
 export const getProductsSearch = (word) => async (dispatch) => {
   let fetching = async () => {
     try {
