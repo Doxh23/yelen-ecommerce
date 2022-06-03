@@ -2,7 +2,6 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const users = require("../model/user");
 const catchAsyncError = require("../middleware/catchAsyncError");
-const jwt = require("jsonwebtoken");
 const ErrorHandler = require("../utils/errorHandler");
 const nodemailer = require("nodemailer");
 
@@ -36,7 +35,6 @@ const login = async (req, res, next) => {
   }
   let token = user.NewToken();
   let test = user.tokenPassword();
-  console.log(test);
 
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", true);
@@ -45,8 +43,8 @@ const login = async (req, res, next) => {
 };
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
-  res.redirect("/");
   res.status(200).json({ sucess: true, message: "successfully logout" });
+ return res.redirect("/");
 };
 
 const changePassword = async (req, res, next) => {
@@ -149,7 +147,7 @@ const getSingleUser = catchAsyncError(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHander(`User does not exist with Id: ${req.params.id}`)
+      new ErrorHandler(`User does not exist with Id: ${req.params.id}`)
     );
   }
 
@@ -184,7 +182,7 @@ const deleteUser = catchAsyncError(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHander(`User does not exist with Id: ${req.params.id}`, 400)
+      new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
     );
   }
 

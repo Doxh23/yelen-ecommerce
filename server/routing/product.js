@@ -14,8 +14,8 @@ const {
 } = require("../middleware/auth.middleware");
 
 //product routing
-router.route("/products").get(isauthenticatedUser, getAllProduct);
-router.route("/product/:id").get(isauthenticatedUser, getOneProduct);
+router.route("/products").get(getAllProduct);
+router.route("/product/:id").get(getOneProduct);
 router
   .route("/admin/product/:id")
   .put(isauthenticatedUser, authorizedRoles("admin"), updateProduct)

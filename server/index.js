@@ -21,7 +21,6 @@ const ErrorHandler = require("./middleware/error");
 let product = require("./routing/product");
 let user = require("./routing/user");
 let order = require("./routing/order");
-let payment = require("./routing/payment");
 
 //middleware
 app.use(express.json());

@@ -2,23 +2,16 @@ const mongoose = require("mongoose");
 const products = require("../model/products");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middleware/catchAsyncError");
+const cloudinary = require("cloudinary");
 
 //-----------------------ADMIN CONTROLLER-------------------------------------------
-/**
- * create a product
- * @param {request from server} req
- * @param {respond send from server} res
- */
+
 const createProduct = catchAsyncError(async (req, res, next) => {
   req.body.user = req.user.id;
   let product = await products.create(req.body);
   res.status(201).json({ sucess: true, product });
 });
-/**
- * update a product
- * @param {request from server} req
- * @param {respond send from server} res
- */
+
 const updateProduct = catchAsyncError(async (req, res, next) => {
   let product = await products.findById(req.params.id);
   if (!product) {
@@ -71,7 +64,7 @@ catchAsyncError(async (req, res, next) => {
   });
 });
 
-const getProductAdmin =catchAsyncError(async (req, res, next) => {
+const getProductAdmin = catchAsyncError(async (req, res, next) => {
   const products = await Product.find();
 
   res.status(200).json({
@@ -93,14 +86,9 @@ const deleteProduct = catchAsyncError(async (req, res) => {
 });
 
 //---------------------------------------------ALL USER CONTROLLER ------------------------------------------------
-/**
- * get all product
- * @param {request from server} req
- * @param {respond send from server} res
- */
+
 const getAllProduct = catchAsyncError(async (req, res) => {
-  
-  let { name, category, sort, select, numericFilter, elPage } = req.query;
+  let { name, category, sort, select, numericFilter, page } = req.query;
 
   let objectQuery = {};
   if (name) {
@@ -121,7 +109,7 @@ const getAllProduct = catchAsyncError(async (req, res) => {
       "=": "$eq",
     };
     const regexExp = /\b([<>]=?|=)\b/g;
-  
+
     numericFilter = numericFilter.replace(
       regexExp,
       (match) => `-${OperatorMap[match]}-`
@@ -130,22 +118,24 @@ const getAllProduct = catchAsyncError(async (req, res) => {
       let [field, operator, value] = el.split("-");
       objectQuery[field] = { [operator]: value };
     });
-
   }
 
   let product = products.find(objectQuery);
+  let productsCount = await products.countDocuments(objectQuery);
+
   if (sort) {
     product = product.sort(sort);
   }
-  let limit = Number(req.query.limit) || 15;
-  let page = Number(req.query.page) || 1;
+  console.log(productsCount);
+  let limit = 8;
+  page = Number(page) || 1;
   let skip = Number((page - 1) * limit);
   product = product.skip(skip).limit(limit);
-
   let result = await product;
-  res.status(200).json({ result, total: result.length });
+  res
+    .status(200)
+    .json({ products: result, total: productsCount, ResultPerPage: limit });
 });
-
 
 const getOneProduct = catchAsyncError(async (req, res, next) => {
   let product = await products.findById(req.params.id);
@@ -161,5 +151,5 @@ module.exports = {
   getOneProduct,
   updateProduct,
   deleteProduct,
-  getProductAdmin
+  getProductAdmin,
 };
