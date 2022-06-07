@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, ClearError } from "../../action/productsAction";
+import { getProductsFilter, ClearError } from "../../action/productsAction";
 import { useParams } from "react-router-dom";
 import Products from "../Home/products";
 import { useAlert } from "react-alert";
@@ -40,7 +40,7 @@ const handleSubmit = (e) =>{
       alert.error(error);
       dispatch(ClearError());
     }
-    dispatch(getProducts(category, currentPage, price,categorie));
+    dispatch(getProductsFilter(category, currentPage, price,categorie));
   }, [dispatch, category, currentPage,price,categorie]);
 
   return (

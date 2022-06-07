@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetails } from "../../action/productsAction";
+import { getProductDetails,addCart } from "../../action/productsAction";
 import { useParams } from "react-router-dom";
-import {useAlert} from "react-alert"
 import {
   Picture,
   Content,
@@ -17,6 +16,7 @@ export default function Product() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.ProductDetails);
+  const test = useSelector((state) => state.cart)
   const [quantity, setquantity] = useState(1);
   const addProduct = (stock) => {
     if(stock > quantity){
@@ -29,9 +29,13 @@ export default function Product() {
     }
     
   };
+  console.log(test)
   useEffect(() => {
     dispatch(getProductDetails(id));
   }, []);
+  const addToCart = () =>{
+dispatch(addCart(products,quantity))
+  }
   return (
     <>
         {!loading
@@ -72,7 +76,7 @@ export default function Product() {
                         -
                       </ButtonQuantity>
                     </DivQuantity>
-                    <ButtonCart ><span>add to cart</span></ButtonCart>
+                    <ButtonCart onClick={addToCart} ><span>add to cart</span></ButtonCart>
                     <hr style={{color:"grey"}} />
                     <div className="status">
                       Status:{" "}

@@ -6,22 +6,19 @@ import {
   clearError,
   productDetailsSuccess,
   productDetailsFail,
+  addToCart,
 } from "../redux/products";
 
-export const addToCart = (id) => async (dispatch) => {
-  let fetching = async () => {
-    try {
-      let data = await axios
-        .get("/api/v1/products")
-        .then((res) => dispatch(res.data));
-    } catch (error) {
-      dispatch(productFail(error));
-    }
-    fetching();
-  };
+export const addCart = (product, number) => async (dispatch) => {
+  try {
+    console.log(product);
+    dispatch(addToCart(product));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-export const getProducts =
+export const getProductsFilter =
   (word = "", page = 1, price = null, categorie = "") =>
   async (dispatch) => {
     let fetching = async () => {
@@ -31,7 +28,7 @@ export const getProducts =
         }&page=${page}${
           Object.keys(price).length === 0
             ? ""
-            : "&numericFilter" + price.filter + price.price
+            : "&numericFilter=price" + price.filter + price.price
         }`;
         console.log(api);
         let data = await axios
@@ -43,6 +40,20 @@ export const getProducts =
     };
     fetching();
   };
+export const getProducts = () => async (dispatch) => {
+  let fetching = async () => {
+    try {
+      let api = `/api/v1/products`;
+      console.log(api);
+      let data = await axios
+        .get(api)
+        .then((res) => dispatch(productSuccess(res.data)));
+    } catch (error) {
+      dispatch(productFail(error));
+    }
+  };
+  fetching();
+};
 export const getProductsSearch = (word) => async (dispatch) => {
   let fetching = async () => {
     try {
