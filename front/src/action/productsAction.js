@@ -11,8 +11,9 @@ import {
 
 export const addCart = (product, number) => async (dispatch) => {
   try {
-    console.log(product);
-    dispatch(addToCart(product));
+    let newProduct ={...product}
+    newProduct.quantity = number
+    dispatch(addToCart(newProduct));
   } catch (err) {
     console.log(err);
   }

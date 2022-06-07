@@ -67,7 +67,15 @@ export const cart = createSlice({
   initialState: [],
   reducers: {
     addToCart: (state, action) => {
-     state.push(action.payload)
+
+      let double = state.find(el=> el._id === action.payload._id)
+      if(double){
+        let findId = state.findIndex(el=> el._id === double._id)
+        state[findId].quantity = state[findId].quantity +double.quantity
+      }else{
+        state.push(action.payload);
+
+      }
     },
     removeToCart: (state, action) => {
       state = state.filter((el) => el.id !== action.payload);
