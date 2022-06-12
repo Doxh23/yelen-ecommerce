@@ -6,14 +6,12 @@ const SignIn = () => {
     username: "",
     password: "",
   });
-  console.log(loginData)
   const handleChange = (e) => {
     const value = e.target.value;
     setloginData({ ...loginData, [e.target.name]: value });
   };
   const login = async () => {
     let data = await axios.post("/api/v1/user/login", loginData).then((res) => {
-      console.log(res.data);
       window.location = "/";
     });
   };
@@ -40,6 +38,7 @@ const SignIn = () => {
                 value={loginData.username}
                 onChange={handleChange}
                 name="username"
+                id="username"
               />
               <label htmlFor="password"></label>
               <input
@@ -47,7 +46,7 @@ const SignIn = () => {
                 onChange={handleChange}
                 type="password"
                 name="password"
-                id=""
+                id="password"
               />
               <button type="submit"> submit</button>
             </form>

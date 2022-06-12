@@ -24,7 +24,7 @@ const createUser = async (req, res, next) => {
 
 let maxage = 3 * 60 * 60 * 1000;
 
-const login = async (req, res, next) => {
+const login = catchAsyncError(async (req, res, next) => {
   let { username, password } = req.body;
   if (!username || !password) {
     next(new ErrorHandler("please Enter Email & Password", 404));
@@ -34,17 +34,16 @@ const login = async (req, res, next) => {
     next(new ErrorHandler("password or email incorrect"));
   }
   let token = user.NewToken();
-  let test = user.tokenPassword();
-
+console.log("salut")
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.cookie("jwt", token, { httpOnly: true, maxAge: maxage });
   res.status(200).json({ user: user._id, username: user.username });
-};
+});
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
   res.status(200).json({ sucess: true, message: "successfully logout" });
- return res.redirect("/");
+  return res.redirect("/");
 };
 
 const changePassword = async (req, res, next) => {
@@ -112,18 +111,15 @@ const newPassword = async (req, res, next) => {
   if (!user) {
     next(new ErrorHandler("reset password token is invalid or expire", 404));
   }
-  if( password !== passwordCheck){
+  if (password !== passwordCheck) {
     next(new ErrorHandler("the password in the checkbox is not the same", 400));
-
-    }   
+  }
   user.password = req.body.password;
   user.resetpasswordToken = null;
   user.resetpasswordExpire = null;
   user.save({ validateBeforeSave: false });
   res.status(200).json({ succes: true, message: "password is reset" });
 };
-
-
 
 const userGetDetails = async (req, res, next) => {
   const user = await users.findOne(req.user._id);
@@ -209,5 +205,5 @@ module.exports = {
   getAllUser,
   getSingleUser,
   deleteUser,
-  updateUserRole
+  updateUserRole,
 };

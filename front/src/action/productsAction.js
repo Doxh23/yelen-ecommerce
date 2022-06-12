@@ -31,7 +31,6 @@ export const getProductsFilter =
             ? ""
             : "&numericFilter=price" + price.filter + price.price
         }`;
-        console.log(api);
         let data = await axios
           .get(api)
           .then((res) => dispatch(productSuccess(res.data)));
@@ -45,7 +44,6 @@ export const getProducts = () => async (dispatch) => {
   let fetching = async () => {
     try {
       let api = `/api/v1/products`;
-      console.log(api);
       let data = await axios
         .get(api)
         .then((res) => dispatch(productSuccess(res.data)));

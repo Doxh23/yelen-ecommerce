@@ -33,6 +33,6 @@ router
   .route("/admin/:id")
   .get(authorizedRoles("admin"), getSingleUser)
   .put(authorizedRoles("admin"), updateUserRole)
-  .delete(authorizedRoles, deleteUser);
-
+  .delete(authorizedRoles("admin"), deleteUser);
+router.route("/user/checkUser").get(isauthenticatedUser)
 module.exports = router;

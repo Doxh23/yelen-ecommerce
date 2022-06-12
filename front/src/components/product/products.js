@@ -19,11 +19,9 @@ export default function Product() {
     "chemise",
     'test'
   ]
-  console.log(productsCount);
   function setcurrentPageNo(e) {
     setcurrentPage(e);
   }
-  console.log(currentPage);
   let { category } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -34,7 +32,6 @@ const handleSubmit = (e) =>{
   e.preventDefault()
   setprice(submit)
 } 
-  console.log(categorie)
   React.useEffect(() => {
     if (error) {
       alert.error(error);

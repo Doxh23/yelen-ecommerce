@@ -1,26 +1,20 @@
 import React, { useEffect,useState } from "react";
-import { ReactNavbar } from "overlay-navbar";
-import logo from "../logo.png";
-import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct } from "../action/productsAction";
-import axios from "axios";
-import {
-  productFail,
-  productRequest,
-  productSuccess,
-  clearError,
-} from "../redux/products";
+import { checkLogin } from "../action/user";
+
 export default function Header() {
+  const location = useLocation()
+  const dispatch = useDispatch()
   const [category, setcategory] = useState("")
   const [state, setstate] = useState()
-  
+  useEffect(() => {
+      checkLogin()
+  }, [location])
   const search = (e) =>{
     e.preventDefault()
     window.location = `/products/${category}`
   }
-  console.log(category)
   const handleChange = (e) =>{
       let value = e.target.value
       setcategory(value)
