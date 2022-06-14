@@ -4,13 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkLogin } from "../action/user";
 
 export default function Header() {
-  const location = useLocation()
-  const dispatch = useDispatch()
+  const test = useSelector(state => console.log(state))
   const [category, setcategory] = useState("")
-  const [state, setstate] = useState()
-  useEffect(() => {
-      checkLogin()
-  }, [location])
   const search = (e) =>{
     e.preventDefault()
     window.location = `/products/${category}`

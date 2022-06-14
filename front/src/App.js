@@ -1,6 +1,6 @@
 import React, { useEffect, useState ,SetStateAction } from "react";
 import Header from "./components/Header";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import About from "./components/About";
 import Logout from './components/Auth/Logout'
 import Contact from "./components/Contact";
@@ -9,8 +9,16 @@ import Home from "./components/Home/Home";
 import SignIn from './components/Auth/SignIn'
 import ProductDetails from './components/product/Product'
 import WebFont from 'webfontloader'
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import {checkLogin} from "./action/user"
 function App() {
-  
+  const dispatch = useDispatch();
+  const location = useLocation()
+  useEffect(() => {
+    dispatch(checkLogin())
+
+  }, [location])
   useEffect(()=>{
     WebFont.load({
 
@@ -19,6 +27,7 @@ function App() {
       }
     })
   },[])
+
   return (
     <>
       <Header />
