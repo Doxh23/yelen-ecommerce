@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkLogin } from "../action/user";
 
 export default function Header() {
-  const test = useSelector(state => console.log(state))
+  const logged = useSelector((state) => state.logged)
   const [category, setcategory] = useState("")
+  console.log(logged)
   const search = (e) =>{
     e.preventDefault()
     window.location = `/products/${category}`
@@ -22,8 +23,14 @@ export default function Header() {
         <NavLink to="/Contact"> contact</NavLink>
         <NavLink to="/About"> about</NavLink>
         
-        {document.cookie.jwt? ( <NavLink to="/logout"> logout</NavLink> ) 
-: (  <NavLink to="/signIn"> SignIn</NavLink>)}
+        {logged? (<> 
+        <NavLink to="/Profile"> Me</NavLink>
+        <NavLink to="/logout"> logout</NavLink>
+        </>
+         ) 
+: ( <><NavLink to="/signIn"> SignIn</NavLink>
+    </> 
+)}
     <form  onSubmit={search} >
       <input type="text" value={category} placeholder="choose a category" onChange={handleChange} name="category" id="" />
     </form>

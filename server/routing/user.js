@@ -17,6 +17,7 @@ const {
 const {
   isauthenticatedUser,
   authorizedRoles,
+  checkConnection,
 } = require("../middleware/auth.middleware");
 //user routing
 router.route("/user/register").post(createUser);
@@ -27,12 +28,12 @@ router.route("/forgot/password").post(forgotPassword);
 router.route("/password/reset/:token").put(newPassword);
 router.route("/me/updatepassword").put(changePassword);
 
-router.route("/me").get(userGetDetails);
+router.route("/me").get(isauthenticatedUser, userGetDetails);
 router.route("/admin/users").get(authorizedRoles("admin"), getAllUser);
 router
   .route("/admin/:id")
   .get(authorizedRoles("admin"), getSingleUser)
   .put(authorizedRoles("admin"), updateUserRole)
   .delete(authorizedRoles("admin"), deleteUser);
-router.route("/user/checkUser").get(isauthenticatedUser)
+router.route("/user/checkUser").get(checkConnection);
 module.exports = router;

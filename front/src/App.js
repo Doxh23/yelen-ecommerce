@@ -9,8 +9,9 @@ import Home from "./components/Home/Home";
 import SignIn from './components/Auth/SignIn'
 import ProductDetails from './components/product/Product'
 import WebFont from 'webfontloader'
+import Profile from './components/profile/Profile'
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {checkLogin} from "./action/user"
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,6 @@ function App() {
       }
     })
   },[])
-
   return (
     <>
       <Header />
@@ -40,6 +40,8 @@ function App() {
         <Route path="/About" element={<About />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/profile" element={<Profile />} />
+
 
       </Routes>
     </>

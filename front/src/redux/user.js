@@ -4,7 +4,7 @@ export const loggedSlice = createSlice({
   initialState: false,
   reducers: {
     logged: (state, action) => {
-      return action.payload
+      state = action.payload;
     },
   },
 });

@@ -1,7 +1,15 @@
 import axios from "axios";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const SignIn = () => {
+
+  const logged = useSelector((state)=> state.logged)
+  console.log(logged)
+  if(logged){
+
+    window.location = "/"
+  }
   const [loginData, setloginData] = React.useState({
     username: "",
     password: "",

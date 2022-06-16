@@ -6,6 +6,6 @@ export const checkLogin =  () => async(dispatch) => {
       .get("/api/v1/user/checkUser")
       .then(res => dispatch(logged(true)))
   } catch (err) {
-    dispatch(logged(false))
+    console.log("salut");
   }
 };
