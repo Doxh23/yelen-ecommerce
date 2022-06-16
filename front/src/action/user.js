@@ -4,8 +4,9 @@ export const checkLogin =  () => async(dispatch) => {
   try {
     const data = await axios
       .get("/api/v1/user/checkUser")
-      .then(res => dispatch(logged(true)))
+      .then(res => dispatch(logged(res.data))
+      )
   } catch (err) {
-    console.log("salut");
+    console.log(err);
   }
 };

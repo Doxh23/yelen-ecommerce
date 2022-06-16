@@ -31,7 +31,7 @@ const checkConnection = (req, res, next) => {
         res.redirect("/");
       } else {
         let user = await userModel.findById(users.id);
-        res.status(200).json({ sucess: true, user: user });
+        res.status(200).json({ success: true, user: user });
       }
     });
   } else {

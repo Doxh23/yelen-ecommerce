@@ -20,6 +20,10 @@ function App() {
     dispatch(checkLogin())
 
   }, [location])
+  const logged = useSelector((state)=> state.logged)
+  if(!logged){
+    
+  }
   useEffect(()=>{
     WebFont.load({
 
