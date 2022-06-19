@@ -18,17 +18,25 @@ export default function Header() {
   return (
     <>
       <div className="header">
-        <NavLink to="/"> home</NavLink>
-        <NavLink to="/Products"> product</NavLink>
-        <NavLink to="/Contact"> contact</NavLink>
-        <NavLink to="/About"> about</NavLink>
+        <NavLink className="navbar" to="/"> home</NavLink>
+        <NavLink className="navbar" to="/Products"> product</NavLink>
+        <NavLink className="navbar" to="/Contact"> contact</NavLink>
+        <NavLink className="navbar" to="/About"> about</NavLink>
         
         {logged? (<> 
-        <NavLink to="/Profile"> Me</NavLink>
-        <NavLink to="/logout"> logout</NavLink>
+        <div className="profile">
+        <NavLink className="navbar Profile-trigger" to="/Profile"> Me</NavLink>
+          <div className="navbar-profile-box">
+          <NavLink className="profile-navbar" to="/Profile/Commands"> My commands</NavLink>
+          <NavLink className="profile-navbar" to="/Profile/Informations"> my Information</NavLink>
+          <NavLink className="profile-navbar" to="/Profile/disconnects"> Disconnect</NavLink>
+
+          </div>
+        </div>
+        <NavLink className="navbar" to="/logout"> logout</NavLink>
         </>
          ) 
-: ( <><NavLink to="/signIn"> SignIn</NavLink>
+: ( <><NavLink className="navbar" to="/signIn"> SignIn</NavLink>
     </> 
 )}
     <form  onSubmit={search} >

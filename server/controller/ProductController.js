@@ -65,11 +65,11 @@ catchAsyncError(async (req, res, next) => {
 });
 
 const getProductAdmin = catchAsyncError(async (req, res, next) => {
-  const products = await Product.find();
+  const Product = await products.find();
 
   res.status(200).json({
     success: true,
-    products,
+    Products,
   });
 });
 

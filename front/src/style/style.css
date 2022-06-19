@@ -26,7 +26,41 @@ body .header {
   height: 5vh;
 }
 
-body .header a {
+body .header .profile .navbar-profile-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  max-height: 0px;
+  overflow: hidden;
+  background-color: rgba(245, 245, 245, 0.574);
+  -webkit-transition: max-height 1s ease-in;
+  transition: max-height 1s ease-in;
+}
+
+body .header .profile .navbar-profile-box:hover {
+  max-height: 200px;
+}
+
+body .header .profile .navbar-profile-box:hover a:hover {
+  color: #3CCA98;
+  text-decoration: none;
+}
+
+body .header a:last-child {
+  margin-right: 100px;
+}
+
+body .header :hover {
+  color: #3CCA98;
+  text-decoration: none;
+}
+
+body .navbar {
   margin: auto 15px;
   font-size: 25px;
   color: red;
@@ -36,13 +70,18 @@ body .header a {
   height: 100%;
 }
 
-body .header a:last-child {
-  margin-right: var(calc(200-100)) px;
+body .Profile-trigger:hover ~ .navbar-profile-box, body .navbar-profile-box:hover {
+  max-height: 200px;
 }
 
-body .header :hover {
-  color: #3CCA98;
+body .profile-navbar {
+  margin: auto 15px;
+  font-size: 25px;
+  color: red;
   text-decoration: none;
+  font-weight: 700;
+  width: auto;
+  height: 100%;
 }
 
 body .content {

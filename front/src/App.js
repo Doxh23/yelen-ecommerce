@@ -21,8 +21,10 @@ function App() {
 
   }, [location])
   const logged = useSelector((state)=> state.logged)
-  if(!logged){
-    
+  if(!logged &&  location.pathname !== "/SignIn"){
+    if(location.pathname !== "/"){
+window.location = "/SignIn"
+    }
   }
   useEffect(()=>{
     WebFont.load({
