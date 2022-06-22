@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect } from "react";
 import Product from "./products";
 import Loader from '../layout/loader/loader'
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <div className="content">
       {!loading ? (
-        <React.Fragment>
+        <>
           <div className="Banner">
             <p>Welcome to Yelen-Ecommerce</p>
             <h1>Find amazing Stuff</h1>
@@ -29,7 +29,7 @@ export default function Home() {
                 <Product key={product._id} product={product} />
               ))}
           </div>
-        </React.Fragment>
+        </>
       ) : <Loader/>}
     </div>
   );

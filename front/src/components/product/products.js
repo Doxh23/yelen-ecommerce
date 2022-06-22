@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsFilter, ClearError } from "../../action/productsAction";
 import { useParams } from "react-router-dom";
@@ -10,10 +10,10 @@ import Typography from "@mui/material/Typography/Typography"
 export default function Product() {
   const { loading, error, products, productsCount, resultPerPage } =
     useSelector((state) => state.products);
-  const [currentPage, setcurrentPage] = React.useState(1);
-  const [submit, setsubmit] = React.useState({ price: "1", filter: ">" });
-  const [price, setprice] = React.useState({})
-  const [categorie, setcategorie] = React.useState({})
+  const [currentPage, setcurrentPage] = useState(1);
+  const [submit, setsubmit] = useState({ price: "1", filter: ">" });
+  const [price, setprice] = useState({})
+  const [categorie, setcategorie] = useState({})
   const categories = [
     "laptop",
     "chemise",

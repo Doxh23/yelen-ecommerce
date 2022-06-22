@@ -47,6 +47,9 @@ window.location = "/SignIn"
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:information" element={<Profile />} />
+        <Route path="/profile/:adress" element={<Profile />} />
+        <Route path="/profile/:orders" element={<Profile />} />
 
 
       </Routes>
