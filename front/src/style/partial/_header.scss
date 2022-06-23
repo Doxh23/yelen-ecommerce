@@ -1,60 +1,59 @@
-.header{
-    background: linear-gradient(rgb(0, 0, 0) 25% , transparent 100%);
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    width: 100%;
-    height: 5vh;
-   
-    .profile{
+.header {
+  background: linear-gradient(rgb(0, 0, 0) 25%, transparent 100%);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  height: 5vh;
 
-        .navbar-profile-box{
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            max-height: 0px;
-            overflow: hidden;
-            background-color: rgba(245, 245, 245, 0.574);
+  .profile {
+    .navbar-profile-box {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      max-height: 0px;
+      overflow: hidden;
+      background-color: rgba(245, 245, 245, 0.574);
 
-            transition: max-height 1s ease-in;
-        }
-        .navbar-profile-box:hover{
-           max-height: 200px;
-           a:hover{
-                color: $green;
-                text-decoration: none;
-           }
-        }
+      transition: max-height 1s ease-in;
     }
-   
-    a:last-child{
-        margin-right: 100px;
-    }
-    :hover{
+    .navbar-profile-box:hover {
+      max-height: 200px;
+      a:hover {
         color: $green;
         text-decoration: none;
+      }
     }
-};
-.navbar{
-    margin: auto 15px ;
-    font-size: 25px;
-    color: red;
+  }
+
+  a:last-child {
+    margin-right: 100px;
+  }
+  :hover {
+    color: $green;
     text-decoration: none;
-    font-weight: 700;
-    width: auto;
-    height: 100%;
-  
+  }
+}
+.navbar {
+  margin: auto 15px;
+  font-size: 25px;
+  color: red;
+  text-decoration: none;
+  font-weight: 700;
+  width: auto;
+  height: 100%;
 }
 
-.Profile-trigger:hover ~ .navbar-profile-box , .navbar-profile-box:hover  {
-    max-height: 200px;
+.Profile-trigger:hover ~ .navbar-profile-box,
+.navbar-profile-box:hover {
+  max-height: 200px;
 }
-.profile-navbar{
-    margin: auto 15px ;
-    font-size: 25px;
-    color: red;
-    text-decoration: none;
-    font-weight: 700;
-    width: auto;
-    height: 100%;
+.profile-navbar {
+  margin: auto 15px;
+  font-size: 25px;
+  color: red;
+  text-decoration: none;
+  font-weight: 700;
+  width: auto;
+  height: 100%;
 }

@@ -7,7 +7,8 @@ $green : #3CCA98;
 
 body{
     background-color: white;
-
+    width: 100vh;
+    width: 100vw;
     @import "./partial/header"; 
     @import "./partial/content";
     @import "./partial/product"; 

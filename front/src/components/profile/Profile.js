@@ -6,23 +6,17 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import Information from "./information";
+import "./style/style.css";
+import Adress from "./Adress";
+import Orders from "./Orders";
 
 const Profile = () => {
   const { information } = useParams();
-
-  const renderSwitch = (params) => {
-    switch (params) {
-      case "aperçu":
-        return "<Information   />";
-      default:
-        break;
-    }
-  };
   return (
     <>
-      <div className="content">
+      <div className="content-profile">
         <div className="profile-sidebar">
-          <NavLink to={"/profile/information"} className="navigation">
+          <NavLink to={"/profile/informations"} className="navigation">
             information
           </NavLink>
           <NavLink to={"/profile/adress"} className="navigation">
@@ -38,10 +32,14 @@ const Profile = () => {
         <div className="information">
           {(() => {
             switch (information) {
-              case "information":
+              case "informations":
                 return <Information />;
               case "adress":
-              /** @aFaire */
+                return <Adress />;
+              case "orders":
+                return <Orders />;
+              default:
+                return <Welcome />;
             }
           })()}
         </div>

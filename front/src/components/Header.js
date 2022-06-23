@@ -27,9 +27,9 @@ export default function Header() {
         <div className="profile">
         <NavLink className="navbar Profile-trigger" to="/Profile"> Me</NavLink>
           <div className="navbar-profile-box">
-          <NavLink className="profile-navbar" to="/Profile/Commands"> My commands</NavLink>
-          <NavLink className="profile-navbar" to="/Profile/Informations"> my Information</NavLink>
-          <NavLink className="profile-navbar" to="/Profile/disconnects"> Disconnect</NavLink>
+          <NavLink className="profile-navbar" to="/profile/orders"> My commands</NavLink>
+          <NavLink className="profile-navbar" to="/profile/informations"> my Information</NavLink>
+          <NavLink className="profile-navbar" to="/logout"> Disconnect</NavLink>
 
           </div>
         </div>
