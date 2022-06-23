@@ -5,7 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import Information from "./information";
+import Information from "./Information";
 import "./style/style.css";
 import Adress from "./Adress";
 import Orders from "./Orders";
