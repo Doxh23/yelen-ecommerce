@@ -1,6 +1,6 @@
 import React, { useEffect, useState ,SetStateAction } from "react";
 import Header from "./components/Header";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useHistory, useNavigate } from "react-router-dom";
 import About from "./components/About";
 import Logout from './components/Auth/Logout'
 import Contact from "./components/Contact";
@@ -16,16 +16,22 @@ import {checkLogin} from "./action/user"
 function App() {
   const dispatch = useDispatch();
   const location = useLocation()
+  const history = useNavigate()
   useEffect(() => {
+    try{
     dispatch(checkLogin())
+    .then(
+      
+    )
+    }
+    finally{
+      if(!logged && location.pathname !== "/SignIn"){
+          history('/')
+      }
+  }
 
   }, [location])
   const logged = useSelector((state)=> state.logged)
-  if(!logged &&  location.pathname !== "/SignIn"){
-    if(location.pathname !== "/"){
-window.location = "/SignIn"
-    }
-  }
   useEffect(()=>{
     WebFont.load({
 

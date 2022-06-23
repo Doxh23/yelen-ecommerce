@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 const Information = () => {
   const {user} = useSelector((state)=> state.logged)
   console.log(user)
@@ -10,7 +11,7 @@ const Information = () => {
     <div className="role">{user.role}</div>
     <div className='password'>
       <label htmlFor="changePassword"> want to change password ?</label>
-    <a name="ChangePassword" href="/changePassword"> click Here</a>
+    <NavLink name="ChangePassword" to="/changePassword"> click Here</NavLink>
     </div>
     </>
   )
