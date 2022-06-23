@@ -9,6 +9,7 @@ import Information from "./information";
 import "./style/style.css";
 import Adress from "./Adress";
 import Orders from "./Orders";
+import Welcome from "./Welcome";
 
 const Profile = () => {
   const { information } = useParams();
@@ -16,6 +17,9 @@ const Profile = () => {
     <>
       <div className="content-profile">
         <div className="profile-sidebar">
+        <NavLink to={"/profile"} className="navigation">
+            My account
+          </NavLink>
           <NavLink to={"/profile/informations"} className="navigation">
             information
           </NavLink>
