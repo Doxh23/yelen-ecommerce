@@ -11,7 +11,7 @@ const Information = () => {
     <div className="role">{user.role}</div>
     <div className='password'>
       <label htmlFor="changePassword"> want to change password ?</label>
-    <NavLink name="ChangePassword" to="/changePassword"> click Here</NavLink>
+    <NavLink name="ChangePassword" to="/profile/changePassword"> click Here</NavLink>
     </div>
     </>
   )
