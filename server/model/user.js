@@ -3,7 +3,7 @@ const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const errorHandler = require("../utils/errorHandler");
-const randomstring = require('randomstring')
+const randomstring = require("randomstring");
 let userSchema = new mongoose.Schema(
   {
     email: {
@@ -54,25 +54,33 @@ userSchema.pre("save", async function (next) {
   let user = this;
   let salt = await bcrypt.genSalt();
   user.password = await bcrypt.hash(user.password, salt);
-  next(); 
+  next();
 });
-userSchema.methods.tokenPassword = function(){
+userSchema.methods.tokenPassword = function () {
   let token = randomstring.generate({
     length: 45,
-    charset:'sha256'
-  })
-  console.log
- this.resetpasswordToken = token
- this.resetpasswordExpire = Date.now() +(15*60*1000)
- return token
-}
-userSchema.statics.comparePassword = async function({pass,pass2}){
-  if (pass === pass2){
-    return pass
+    charset: "sha256",
+  });
+  console.log;
+  this.resetpasswordToken = token;
+  this.resetpasswordExpire = Date.now() + 15 * 60 * 1000;
+  return token;
+};
+userSchema.statics.comparePassword = async function ({ username, password }) {
+  const user = await this.findOne({ username });
+  if (user) {
+    const check = bcrypt.compare(password, this.password);
+    if(check){
+      console.log("5")
+      return password
+ }else{
+      return null
+    }
+  } else {
+    return null;
   }
-  return null
-}
-userSchema.methods.NewToken = function() {
+};
+userSchema.methods.NewToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });

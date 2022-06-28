@@ -34,7 +34,7 @@ const login = catchAsyncError(async (req, res, next) => {
     next(new ErrorHandler("password or email incorrect"));
   }
   let token = user.NewToken();
-console.log("salut")
+  console.log("salut");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.cookie("jwt", token, { httpOnly: true, maxAge: maxage });
@@ -46,20 +46,23 @@ const logout = async (req, res, next) => {
   return res.redirect("/");
 };
 
-const changePassword = async (req, res, next) => {
+const changePassword =  catchAsyncError( async(req, res, next) => {
   let user = await users.findOne({ _id: req.user._id });
 
-  let { password, checkPassword } = req.body;
-  let passwordMatch = await user.comparePassword(password, password2);
-
-  if (password !== checkPassword) {
-    next(new ErrorHandler("the password in the checkbox is not the same"));
+  let { actualPassword, newPassword, checkNewPassword } = req.body;
+  let checkActualPassword =await  users.comparePassword(user.username,actualPassword);
+  console.log(checkActualPassword)
+  if (checkActualPassword === null) {
+    next(new ErrorHandler("the actual password is not correct",400));
   }
-  user.password = password;
-  await user.save({ validateBeforeSave: false });
-  res.status(200).json({ success: true, message: "password updated" });
-  console.log(user);
-};
+  if (newPassword !== checkNewPassword) {
+    next(new ErrorHandler("the password in the checkbox is not the same",400));
+  }
+
+  user.password = checkNewPassword; 
+  await user.save();
+  return res.status(200).json({ success: true, message: "password updated" });
+});
 
 const forgotPassword = async (req, res, next) => {
   let { email } = req.body;
