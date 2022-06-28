@@ -55,13 +55,14 @@ const changePassword =  catchAsyncError( async(req, res, next) => {
   if (checkActualPassword === null) {
     next(new ErrorHandler("the actual password is not correct",400));
   }
+  console.log(5)
   if (newPassword !== checkNewPassword) {
     next(new ErrorHandler("the password in the checkbox is not the same",400));
   }
 
   user.password = checkNewPassword; 
   await user.save();
-  return res.status(200).json({ success: true, message: "password updated" });
+  res.status(200).json({ success: true, message: "password updated" });
 });
 
 const forgotPassword = async (req, res, next) => {

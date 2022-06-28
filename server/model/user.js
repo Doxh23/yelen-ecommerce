@@ -66,18 +66,18 @@ userSchema.methods.tokenPassword = function () {
   this.resetpasswordExpire = Date.now() + 15 * 60 * 1000;
   return token;
 };
-userSchema.statics.comparePassword = async function ({ username, password }) {
-  const user = await this.findOne({ username });
+userSchema.statics.comparePassword = async function ( username, password) {
+  const user = await this.findOne({ username:username });
   if (user) {
-    const check = bcrypt.compare(password, this.password);
+    const check = bcrypt.compare(password, user.password);
     if(check){
-      console.log("5")
-      return password
+      return user
  }else{
-      return null
+      return 5
+
     }
   } else {
-    return null;
+    return 1;
   }
 };
 userSchema.methods.NewToken = function () {
