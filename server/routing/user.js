@@ -22,7 +22,7 @@ const {
 //user routing
 router.route("/user/register").post(createUser);
 router.route("/user/login").post(login);
-router.route("/user/logout").post(logout);
+router.route("/user/logout").post(isauthenticatedUser,logout);
 router.route("/user/getDetails").get(userGetDetails);
 router.route("/forgot/password").post(forgotPassword);
 router.route("/password/reset/:token").put(newPassword);

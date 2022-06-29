@@ -12,8 +12,7 @@ export const loggedSlice = createSlice({
     loggedFail: (state, action) => {
       return {
         user: null,
-        success: action.payload.success,
-        message: action.payload.message
+        success: false
       };
     },
   },

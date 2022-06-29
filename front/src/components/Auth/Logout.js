@@ -1,10 +1,11 @@
-import React from "react";
+import React,{useEffect} from "react";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 const Logout = () => {
-  React.useEffect(() => {
-  const  Logout = async() =>(axios.post("/api/v1/user/logout").then((res) => res.data));
+  const navigate = useNavigate()
+  useEffect(() => {
+  const  Logout = async() =>(axios.post("/api/v1/user/logout").then((res) =>  window.location = "/"));
   Logout()
-  window.location = "/"
   }, []);
   return null;
 };

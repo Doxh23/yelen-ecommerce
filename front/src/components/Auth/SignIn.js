@@ -27,7 +27,6 @@ const SignIn = () => {
     e.preventDefault();
     login();
   };
-  React.useEffect(() => {}, []);
   return (
     <>
       <div className="Login">

@@ -7,6 +7,6 @@ export const checkLogin =  () => async(dispatch) => {
       .then(res => dispatch(logged(res.data))
       )
   } catch (err) {
-    console.log(err);
+      dispatch(logged())
   }
 };

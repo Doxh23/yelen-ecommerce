@@ -34,7 +34,6 @@ const login = catchAsyncError(async (req, res, next) => {
     next(new ErrorHandler("password or email incorrect"));
   }
   let token = user.NewToken();
-  console.log("salut");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.cookie("jwt", token, { httpOnly: true, maxAge: maxage });
@@ -42,24 +41,23 @@ const login = catchAsyncError(async (req, res, next) => {
 });
 const logout = async (req, res, next) => {
   res.clearCookie("jwt");
+  req.user = null
   res.status(200).json({ sucess: true, message: "successfully logout" });
-  return res.redirect("/");
+  res.redirect("/");
 };
 
 const changePassword =  catchAsyncError( async(req, res, next) => {
   let user = await users.findOne({ _id: req.user._id });
 
   let { actualPassword, newPassword, checkNewPassword } = req.body;
+  console.log(actualPassword,newPassword,checkNewPassword)
   let checkActualPassword =await  users.comparePassword(user.username,actualPassword);
-  console.log(checkActualPassword)
   if (checkActualPassword === null) {
     next(new ErrorHandler("the actual password is not correct",400));
   }
-  console.log(5)
   if (newPassword !== checkNewPassword) {
     next(new ErrorHandler("the password in the checkbox is not the same",400));
   }
-
   user.password = checkNewPassword; 
   await user.save();
   res.status(200).json({ success: true, message: "password updated" });
@@ -68,7 +66,6 @@ const changePassword =  catchAsyncError( async(req, res, next) => {
 const forgotPassword = async (req, res, next) => {
   let { email } = req.body;
   let user = await users.findOne({ email: email });
-  console.log(user);
   if (!user) {
     next(new ErrorHandler("user not found", 404));
   }
