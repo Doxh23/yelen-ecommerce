@@ -1,5 +1,5 @@
 import axios from "axios";
-import { logged } from "../redux/user";
+import { logged,loggedFail } from "../redux/user";
 export const checkLogin =  () => async(dispatch) => {
   try {
     const data = await axios
@@ -7,6 +7,6 @@ export const checkLogin =  () => async(dispatch) => {
       .then(res => dispatch(logged(res.data))
       )
   } catch (err) {
-      dispatch(logged())
+      dispatch(loggedFail())
   }
 };

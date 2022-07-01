@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkLogin } from "../action/user";
 
 export default function Header() {
-  const logged = useSelector((state) => state.logged)
+  const {success} = useSelector((state) => state.logged)
   const [category, setcategory] = useState("")
-  console.log(logged)
   const search = (e) =>{
     e.preventDefault()
     window.location = `/products/${category}`
@@ -23,7 +22,7 @@ export default function Header() {
         <NavLink className="navbar" to="/Contact"> contact</NavLink>
         <NavLink className="navbar" to="/About"> about</NavLink>
         
-        {logged? (<> 
+        {success? (<> 
         <div className="profile">
         <NavLink className="navbar Profile-trigger" to="/Profile"> Me</NavLink>
           <div className="navbar-profile-box">

@@ -4,9 +4,8 @@ import { useSelector } from "react-redux";
 
 const SignIn = () => {
 
-  const logged = useSelector((state)=> state.logged)
-  console.log(logged)
-  if(logged){
+  const {success} = useSelector((state)=> state.logged)
+  if(success){
 
     window.location = "/"
   }
